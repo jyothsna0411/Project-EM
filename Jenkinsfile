@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Git repository
-                git url: 'https://github.com/yourusername/yourrepository.git'
+                git url: 'https://github.com/jyothsna0411/Project-EM.git'
             }
         }
         stage('Build') {
