@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git repository
-                git url: 'https://github.com/jyothsna0411/Project-EM.git'
+                echo 'Checkout done'
             }
         }
         stage('Build') {
