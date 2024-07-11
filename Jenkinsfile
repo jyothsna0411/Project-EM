@@ -4,32 +4,35 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checkout done'
+                git branch: 'main', url: 'https://github.com/jyothsna0411/Project-EM.git'
             }
         }
-        stage('Build') {
+        stage('Build Image') {
             steps {
-                // Build the Maven project
-                sh 'mvn clean package'
+                script {
+                    sh 'docker build -t jp0411/myapp .'
+                }
             }
         }
-        stage('Deploy') {
+        stage('Run') {
             steps {
-                // Example: Deploy to a server or Docker registry
-                sh 'echo "Deploying application"'
-                // Add your deployment script here
+                script {
+                    // Stop and remove any existing container
+                    sh 'docker stop myapp || true && docker rm myapp || true'
+                    
+                    // Run the new container
+                    sh 'docker run -d --name myapp -p 8081:8081 jp0411/myapp'
+                }
             }
         }
     }
     
     post {
         success {
-            echo 'Build successful! Application deployed.'
-            // Add any post-build actions or notifications here
+            echo 'Build and deployment successful!'
         }
         failure {
-            echo 'Build failed :('
-            // Add failure handling here if needed
+            echo 'Build or deployment failed.'
         }
     }
 }
